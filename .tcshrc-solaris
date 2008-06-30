@@ -1,0 +1,19 @@
+# -*- sh -*-
+#
+# Solaris
+#
+
+if ($?LANG == 0) then
+    if (`locale -a | grep -c ja_JP.UTF-8` >= 1 && $tcsh_major >= 6 && $tcsh_minor >= 12) then
+        setenv LANG ja_JP.UTF-8
+    else
+        setenv LANG ja
+    endif
+endif
+
+# POSIX ls
+alias ls 'ls -F'
+alias ll 'ls -la'
+alias la 'ls -a'
+
+setenv PATH /usr/X11R6/bin:/usr/local/bin:/usr/ccs/bin:/bin:/usr/sbin:/sbin:${PATH}

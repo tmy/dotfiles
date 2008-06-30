@@ -1,0 +1,145 @@
+# -*- sh -*-
+
+
+# Pressing "x" and enter exits.
+alias x         'exit'
+# Quite handy, type "ff test.c" to find "test.c". 
+# Keep in mind that there is also "locate test.c" which is faster.
+alias ff        'find . -name $*'
+# Alias for "." and ".."
+# Shows current directory
+alias .         'pwd'
+# Goes back one directory
+alias ..        'cd ..'
+alias ../       'cd ../'
+# Goes back two directories
+alias ...       'cd ../..'
+alias .../      'cd ../../'
+# Goes to previous directory
+alias -         'cd -'
+# Goes to the root directory
+alias /         'cd /'
+
+alias tailf     'tail -f $*'
+
+alias eng 'env LC_ALL=C'
+
+# nkf
+if (-x `which nkf`) then
+    if (${LANG} == "ja_JP.UTF-8") then
+        alias nkf 'nkf -w'
+    else if (${LANG} == "ja_JP.eucJP") then
+        alias nkf 'nkf -e'
+    endif
+endif
+
+if (-x `which nkf`) then
+    alias e2u 'nkf -E -w'
+    alias s2u 'nkf -S -w'
+    alias j2u 'nkf -J -w'
+    alias u2e 'nkf -W -e'
+    alias s2e 'nkf -S -e'
+    alias j2e 'nkf -J -e'
+else if (-x `which iconv`) then
+    alias e2u 'iconv -f euc-jp -t utf-8'
+    alias s2u 'iconv -f shift_jis -t utf-8'
+    alias j2u 'iconv -f iso-2022-jp -t utf-8'
+    alias u2e 'iconv -f utf-8 -t euc-jp'
+    alias s2e 'iconv -f shift_jis -t euc-jp'
+    alias j2e 'iconv -f iso-2022-jp -t euc-jp'
+endif
+
+# less
+if (${LANG} == "ja_JP.UTF-8") then
+    setenv LESSCHARSET utf-8
+endif
+if (-x `which jless`) then
+    alias less jless
+endif
+alias nless 'nl \!* | less'
+
+if (-x `which gnutar`) then
+    alias tar gnutar
+endif
+
+alias gpg 'eng gpg'
+
+# Mac OS X
+alias console 'open -a Console'
+alias calc 'open -a Calculator'
+alias emacs 'env XMODIFIERS=@im=no emacs'
+
+# GNU screen
+alias s screen
+alias ss screen ssh
+
+if (${LANG} == "ja_JP.UTF-8") then
+    alias refe 'refe \!* | e2u'
+endif
+
+# Perl
+setenv PERLDB_OPTS 'f g '
+setenv PERL_BADLANG 0
+
+# Ant
+if (! $?ANT_HOME) then
+    foreach i (~/src/ant ~/src/apache-ant /usr/local/ant)
+        if (-d "$i") then
+            setenv ANT_HOME "$i"
+        endif
+    end
+endif
+if ($?ANT_HOME) then
+    setenv PATH "$ANT_HOME/bin:$PATH"
+    alias ant 'eng ant'
+endif
+
+# Maven
+if (! $?MAVEN_HOME) then
+    foreach i (~/src/maven /usr/local/maven)
+        if (-d "$i") then
+            setenv MAVEN_HOME "$i"
+        endif
+    end
+endif
+if ($?MAVEN_HOME) then
+    setenv PATH "$MAVEN_HOME/bin:$PATH"
+    alias maven "eng maven -Dmaven.username=${USER}"
+endif
+
+# Tomcat
+if (! $?CATALINA_HOME) then
+    foreach i (~/src/tomcat ~/src/jakarta-tomcat /usr/local/tomcat /usr/local/jakarta-tomcat)
+        if (-d "$i") then
+            setenv CATALINA_HOME "$i"
+        endif
+    end
+endif
+if ($?CATALINA_HOME) then
+    if (-x "$CATALINA_HOME/bin/catalina.sh") then
+        alias catalina.sh "$CATALINA_HOME/bin/catalina.sh"
+    endif
+endif
+
+# PostgreSQL
+if (! $?PGSQL_HOME) then
+    if (-d "/usr/local/pgsql") then
+        setenv PGSQL_HOME "/usr/local/pgsql"
+    endif
+endif
+if ($?PGSQL_HOME) then
+    setenv PATH "$PGSQL_HOME/bin:$PATH"
+endif
+
+# MySQL
+if (! $?MYSQL_HOME) then
+    if (-d "/usr/local/mysql") then
+        setenv MYSQL_HOME "/usr/local/mysql"
+    endif
+endif
+if ($?MYSQL_HOME) then
+    setenv PATH "$MYSQL_HOME/bin:$PATH"
+endif
+
+
+unset i

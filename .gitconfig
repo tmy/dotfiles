@@ -1,0 +1,11 @@
+[user]
+	name = Akinori Tomita
+	email = REPLACE@example.com
+[gui]
+	recentrepo = /Users/tommy/Projects/redmine
+	fontui = -family \"ヒラギノ角ゴ ProN W3\" -size 13 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family セプテンバーＭ-等幅 -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+[color]
+	diff = auto
+	status = auto
+	branch = auto

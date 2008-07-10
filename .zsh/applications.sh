@@ -146,6 +146,9 @@ if [ -n "${__CF_USER_TEXT_ENCODING}" ] ; then
     eval `perl -e 'for(@ARGV){s|.*/(.+)\.app$|$1|;$app=$_;s|\s+||g;print qq(alias $_.app="open -a \x27$app\x27"\n)}' /Applications/*.app /Applications/*/*.app ~/Applications/*.app ~/Applications/*/*.app`
 fi
 
+# Mercurial
+export HGENCODING="utf-8"
+
 function google() {
     local str opt 
     if [ $# != 0 ]; then # 引数が存在すれば

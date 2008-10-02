@@ -479,6 +479,11 @@
 (define-key global-map
   "\C-cS" 'scheme-other-window)
 
+(autoload 'markdown-mode "markdown-mode.el"
+  "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+      (cons '("\\.text" . markdown-mode) auto-mode-alist))
+
 ;; ;--- GNU GLOBAL(gtags) gtags.el ---
 ;; (autoload 'gtags-mode "gtags" "" t)
 ;; (setq gtags-mode-hook

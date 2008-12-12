@@ -6,6 +6,9 @@
 (setq exec-path (append '("/usr/local/bin") exec-path))
 (setq exec-path (append '("/opt/local/bin") exec-path))
 
+(setenv "DYLD_LIBRARY_PATH" "/Library/Oracle/instantclient_10_2")
+(setenv "NLS_LANG" "Japanese_Japan.ja16euc")
+
 ;;; 言語環境の指定
 ;(require 'un-define)
 ;(require 'jisx0213)
@@ -319,6 +322,11 @@
 (modify-coding-system-alist 'file "\\.rb$" 'utf-8)
 (modify-coding-system-alist 'file "\\.rhtml$" 'utf-8)
 
+;; Template Toolkit
+(autoload 'tt-mode "tt-mode")
+(setq auto-mode-alist
+      (append '(("\\.tt$" . tt-mode))  auto-mode-alist ))
+
 ;; ;;; mmm-mode
 (require 'mmm-auto)
 (setq mmm-global-mode 'maybe)
@@ -387,7 +395,15 @@
     :insert ((?% erb-code       nil @ "<%"  @ " " _ " " @ "%>" @)
              (?# erb-comment    nil @ "<%#" @ " " _ " " @ "%>" @)
              (?= erb-expression nil @ "<%=" @ " " _ " " @ "%>" @)))
+   (mmm-tt
+    :submode tt-mode
+    :front "\\[%"
+    :back "%\\]")
    (mmm-smarty
+    :submode smarty-mode
+    :front "{"
+    :back "}")
+   (mmm-smarty2
     :submode smarty-mode
     :front "{{"
     :back "}}")
@@ -397,10 +413,12 @@
     :back "\\(\\?>\\|\\'\\)")))
 (mmm-add-mode-ext-class 'html-mode nil 'mmm-css)
 (mmm-add-mode-ext-class 'html-mode nil 'mmm-javascript)
-(mmm-add-mode-ext-class 'html-mode nil 'mmm-smarty)
+(mmm-add-mode-ext-class 'html-mode nil 'mmm-smarty2)
+(mmm-add-mode-ext-class 'html-mode nil 'mmm-tt)
 (mmm-add-mode-ext-class 'sgml-mode nil 'mmm-css)
 (mmm-add-mode-ext-class 'sgml-mode nil 'mmm-javascript)
 (mmm-add-mode-ext-class 'sgml-mode nil 'mmm-smarty)
+(mmm-add-mode-ext-class 'sgml-mode nil 'mmm-tt)
 (mmm-add-mode-ext-class nil "\\.rhtml$" 'mmm-eruby)
 (mmm-add-mode-ext-class nil "\\.php$" 'mmm-php)
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . html-mode))

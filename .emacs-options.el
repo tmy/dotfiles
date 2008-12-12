@@ -4,6 +4,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(Info-additional-directory-list (quote ("/Users/tommy/Library/Info")))
+ '(auto-coding-functions (quote (sgml-xml-auto-coding-function)))
  '(auto-compression-mode t nil (jka-compr))
  '(bar-cursor nil)
  '(c-basic-offset 4)
@@ -55,10 +56,10 @@
  '(speedbar-frame-plist (quote (minibuffer nil width 30 border-width 0 internal-border-width 0 unsplittable t default-toolbar-visible-p nil has-modeline-p nil menubar-visible-p nil)))
  '(speedbar-tag-hierarchy-method (quote (speedbar-trim-words-tag-hierarchy speedbar-prefix-group-tag-hierarchy)))
  '(speedbar-track-mouse-flag nil)
- '(sql-oracle-program "/home/tommy/bin/rsqlplus")
+ '(sql-oracle-program "/Library/Oracle/instantclient_10_2/sqlplus")
  '(tab-width 4)
  '(tool-bar-mode nil)
- '(tramp-default-method "rsync")
+ '(tramp-default-method "scpx")
  '(transient-mark-mode t)
  '(user-mail-address "tommy@imjp.co.jp")
  '(utf-translate-cjk-mode t)

@@ -24,7 +24,7 @@ set wrap
 set autoindent
 set wildmenu
 
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+set statusline=%<%f\ %m%r%h%w[%Y]%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 
 if &encoding !=# 'utf-8'
   set encoding=japan

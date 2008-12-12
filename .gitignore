@@ -5,6 +5,23 @@ Backups
 Desktop
 Documents
 Downloads
+Library/*
+!Library/Application Support
+Library/Application Support/*
+!Library/Application Support/CotEditor
+!Library/Application Support/OmniGraffle
+!Library/Application Support/SIMBL
+!Library/Application Support/TextExtras
+!Library/Application Support/TextMate
+!Library/ColorPickers
+!Library/Colors
+!Library/KeyBindings
+!Library/Lisp
+!Library/PreferencePanes
+!Library/QuickLook
+!Library/Services
+!Library/SoftwareLicences
+!Library/Widgets
 Movies
 Music
 Pictures

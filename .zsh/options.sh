@@ -17,6 +17,7 @@ dumb*|emacs*)
     else
         PROMPT_HOST="%m"
     fi
+    YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
     PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}@${PROMPT_HOST}]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
     PROMPT2="%_> "
     SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "

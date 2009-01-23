@@ -3,6 +3,10 @@
 # Darwin 
 #
 
+if [ -d "$HOME/bin/darwin" ] ; then
+    export PATH="$HOME/bin/darwin:$PATH"
+fi
+
 if [ -z "${LANG}" ] ; then
     export LANG=ja_JP.UTF-8
 fi

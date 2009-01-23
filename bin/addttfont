@@ -1,0 +1,156 @@
+#!/usr/bin/perl
+# $Id: addttfont,v 1.7 1999/08/10 04:20:40 taoka Exp $
+
+$LOCAL_BASE = "/usr/local";
+$X11_BASE = "/usr/X11R6";
+$GS_VTPSFONT_DIR = $LOCAL_BASE . "/share/ghostscript/VTPSfont";
+$GS_FONTMAP = $LOCAL_BASE . "/share/ghostscript/5.10vflib/Fontmap";
+$VFONTCAP = $LOCAL_BASE . "/share/VFlib/2.24.1/vfontcap";
+$XTT_FONT_DIR = "./";
+$TGIF_XDEF = $X11_BASE . "/lib/X11/ja_JP.EUC/app-defaults/Tgif";
+
+$START = "AUTO_ADD_TT_BY_addttfont";
+
+require 'getopts.pl';
+
+Getopts('hR:G:t:v:g:p:');
+
+die "Usage: $0 [-h] [-R font_file] [-G font_file]
+            [-t /some/where/Tgif] [-v /some/where/vfontcap]
+            [-g /some/where/Fontmap] [-p /some/where ]
+
+    -h: show this help
+    -R font_file: a truetype font file for Ryumin-Light
+    -G font_file: a truetype font file for GothicBBB-Medium
+    -t file: X resource file for tgif with the directory
+             (default /usr/X11R6/lib/X11/ja_JP.EUC/app-defaults/Tgif)
+    -v file: file of VFlib with the directory
+             (default /usr/local/share/VFlib/2.24.1/vfontcap)
+    -g file: Ghostscript's file with the directory
+             (default /usr/local/share/ghostscript/5.10vflib/Fontmap)
+    -p directory: direcrtory for virtual PS fonts produced by VFlib
+             (default /usr/local/share/ghostscript/VTPSfont)
+" if ($opt_h);
+
+$TGIF_XDEF = $opt_t if defined $opt_t;
+$VFONTCAP = $opt_v if defined $opt_v;
+$GS_FONTMAP = $opt_g if defined $opt_g;
+$GS_VTPSFONT_DIR = $opt_p if defined $opt_p;
+
+# Fonts of Ryumin-Light and GothicBBB-Medium
+if ( defined $opt_R && ! -f $opt_R ){
+  print "I cannot find \"$opt_R\"\n";
+  exit 0;
+}
+if ( defined $opt_G && ! -f $opt_G ){
+  print "I cannot find $opt_G\n";
+  exit 0;
+}
+# get previous Ryumin and Gothic font names from vfontcap
+if (! defined $opt_R){
+  open(VFC, "cat $VFONTCAP |");
+  foreach $lines (grep { /min:fc=.*: \#$START/ } <VFC>){
+    chop $lines;
+    $RYUMIN=$lines;
+    $RYUMIN=~ s/min:fc=(.*): \#$START/$1/;
+  }
+}
+else{
+  $RYUMIN = $opt_R;
+  $RYUMIN =~ s/\.tt[fc]$//;
+}
+if (! defined $opt_G){
+  open(VFC, "cat $VFONTCAP |");
+  foreach $lines (grep { /goth:fc=.*: \#$START/ } <VFC>){
+    chop $lines;
+    $GOTH=$lines;
+    $GOTH=~ s/goth:fc=(.*): \#$START/$1/;
+  }
+}
+else{
+  $GOTH = $opt_G;
+  $GOTH =~ s/\.tt[fc]$//;
+}
+
+$dif = $ARGV[0];
+
+######################################################################
+# Ghostscript
+print "#################################################\n";
+print "Now making Virtual PS fonts for Ghostscript ....\n";
+$BEGIN_ADD_MESSAGE = "%" . $START;
+$END_ADD_MESSAGE = "%END_" . $START;
+system "sed '/$BEGIN_ADD_MESSAGE/,/$END_ADD_MESSAGE/d' $GS_FONTMAP > tmp_Fontmap";
+system "echo $BEGIN_ADD_MESSAGE >> tmp_Fontmap";
+
+open(MKTTFDIR, "mkttfdir -d -j $dir |") ||
+      die "Couldn't run mkttfdir $! \n";
+$UniqueID=4300000;
+foreach (<MKTTFDIR>){
+    chop;
+    s/^[0-9]+$//;  # number of fonts in fonts.dir
+    next if ($_ eq "" || !/.*jisx0208.1983-0$/); # Now only jisx0208.1983 fonts
+    /^([^\s]+) (.+)$/;
+    $filename = $1;
+    $xled = $2;
+    $filename =~ s/^.*[:](.*\.tt[fc])/$1/;
+    $basename = $filename;
+    $basename =~ s/\.tt[fc]//;
+    $_ = $xled;
+    ($dummy, $foundry, $family_name, $weight_name, $slant,
+     $setwidth_name, $add_style_name) = split('-');
+#    $weight_name = ucfirst $weight_name;
+    $nb_family_name = $family_name;
+    $nb_family_name =~ s/\s+//g; # no blank
+    $ttf_id = "$family_name-$weight_name";
+    $nb_ttf_id = "$nb_family_name-$weight_name";
+#####
+    $X_Font_Ryumin = "-$foundry-$family_name-$weight_name-$slant" if defined $RYUMIN && ($RYUMIN eq $basename);
+    $X_Font_Gothic = "-$foundry-$family_name-$weight_name-$slant" if defined $GOTH && ($GOTH eq $basename);
+#####
+    $UniqueID=`VTPSfont $GS_VTPSFONT_DIR $nb_ttf_id $nb_ttf_id $basename tmp_Fontmap $UniqueID`;
+  }
+system "echo $END_ADD_MESSAGE >> tmp_Fontmap";
+system "mv tmp_Fontmap $GS_FONTMAP";
+print "done\n\n";
+
+
+######################################################################
+# VFlib
+print "#################################################\n";
+print "Now adding Entris to vfontcap for VFlib ....\n";
+$BEGIN_ADD_MESSAGE = '\#' . $START;
+$END_ADD_MESSAGE = '\#END_' . $START;
+system "sed '/$BEGIN_ADD_MESSAGE/,/$END_ADD_MESSAGE/d' $VFONTCAP > org_vfontcap";
+system "echo $BEGIN_ADD_MESSAGE > tmp_vfontcap";
+system "echo \"min:fc=$RYUMIN: #$START\" >>  tmp_vfontcap" if defined $RYUMIN;
+system "echo \"goth:fc=$GOTH: #$START\" >>  tmp_vfontcap" if defined $GOTH;
+system "mkres.pl -I -f vfontcap `pwd` >> tmp_vfontcap";
+system "echo $END_ADD_MESSAGE >> tmp_vfontcap";
+system "cat tmp_vfontcap org_vfontcap > $VFONTCAP";
+system "rm tmp_vfontcap org_vfontcap";
+print "done\n\n";
+
+
+######################################################################
+# Tgif
+print "#################################################\n";
+print "Now adding Entris to Tgif for tgif ....\n";
+$BEGIN_ADD_MESSAGE = '\!' . $START;
+$END_ADD_MESSAGE = '\!END_' . $START;
+$MKRES_OPTION = "";
+$MKRES_OPTION = "-R \"$X_Font_Ryumin\" " if defined $RYUMIN;
+$MKRES_OPTION = $MKRES_OPTION . "-G \"$X_Font_Gothic\" " if defined $GOTH;
+system "sed '/$BEGIN_ADD_MESSAGE/,/$END_ADD_MESSAGE/d' $TGIF_XDEF > tmp_Tgif";
+system "echo $BEGIN_ADD_MESSAGE >> tmp_Tgif";
+system "mkres.pl -f tgif $MKRES_OPTION >> tmp_Tgif";
+system "echo $END_ADD_MESSAGE >> tmp_Tgif";
+system "mv tmp_Tgif $TGIF_XDEF";
+print "done\n\n";
+
+######################################################################
+# X-TT
+print "#################################################\n";
+print "Now doing mkttfdir ....\n";
+system "mkttfdir -j -o";
+print "done\n";

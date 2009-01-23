@@ -7,6 +7,9 @@ fi
 if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
 fi
+if [ -d "$HOME/bin/local" ] ; then
+    export PATH="$HOME/bin/local:$PATH"
+fi
 
 # environment variables
 export AUTHOR='Akinori Tomita'

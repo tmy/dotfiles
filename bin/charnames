@@ -1,0 +1,8 @@
+#!/usr/bin/env perl -pl
+
+use encoding 'utf8';
+use HTML::Entities;
+use charnames ':full';
+
+$o = ord;
+$_ = sprintf "$_ U+%04X %s", $o, charnames::viacode($o)

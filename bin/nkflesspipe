@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# ハイライトしてみる
+source-highlight \
+    -f esc -o STDOUT \
+    "$@" 2>/dev/null | nkf -w
+
+# だめなら nkf だけ
+if (( ${PIPESTATUS[0]} ))
+then
+    nkf -w "$@"
+fi

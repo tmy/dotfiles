@@ -1,0 +1,14 @@
+#!/bin/sh
+
+LC_ALL=C
+export LC_ALL
+
+if [ $# == 0 ]; then
+  echo "Usage:" $0 base_revision
+  exit -1
+fi
+
+BASE_REVISION=$1
+REPOSITORY_ROOT=`svn info | grep 'Repository Root: ' | cut -b 18-`
+
+svn merge -r "$1:HEAD" "$REPOSITORY_ROOT/trunk" .

@@ -3,27 +3,58 @@
 #
 autoload colors
 colors
-case ${TERM} in
-dumb*|emacs*)
-    ;;
-*)
-    if [ "${UID}" = "0" ] ; then
-        PROMPT_USER="%{${bg[blue]}%}%n%{${reset_color}%}"
-    else
-        PROMPT_USER="%n"
+
+_update_prompt()
+{
+    case ${TERM} in
+    dumb*|emacs*)
+        ;;
+    *)
+        if [ "${UID}" = "0" ] ; then
+            PROMPT_USER="%{${bg[blue]}%}%n%{${reset_color}%}"
+        else
+            PROMPT_USER="%n"
+        fi
+        if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
+            PROMPT_HOST="%{${bg[blue]}%}%m%{${reset_color}%}"
+        else
+            PROMPT_HOST="%m"
+        fi
+        YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
+        PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}@${PROMPT_HOST}]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
+        PROMPT2="%_> "
+        SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+        RPROMPT="$GIT_CURRENT_BRANCH%(0?..[Return code:%{${fg[red]}%}%?%{${reset_color}%}])%(2L.[Shell level:%L].)%(1j.[Jobs:%j].)"
+        ;;
+    esac
+}
+
+_set_env_git_current_branch() {
+    GIT_CURRENT_BRANCH=$( git branch &> /dev/null | grep '^¥*' | cut -b 3- )
+    if [ -n "$GIT_CURRENT_BRANCH" ] ; then
+        GIT_CURRENT_BRANCH="[git:%{${fg[green]}%}$GIT_CURRENT_BRANCH%{${reset_color}%}]"
     fi
-    if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
-        PROMPT_HOST="%{${bg[blue]}%}%m%{${reset_color}%}"
-    else
-        PROMPT_HOST="%m"
-    fi
-    YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
-    PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}@${PROMPT_HOST}]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
-    PROMPT2="%_> "
-    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-    RPROMPT="%(0?..[Return code:%{${fg[red]}%}%?%{${reset_color}%}])%(2L.[Shell level:%L].)%(1j.[Jobs:%j].)"
-    ;;
-esac
+    
+}
+
+precmd() {
+    case "${TERM}" in
+    kterm*|xterm*|dtterm*)
+        # set terminal title including current directory
+        #
+        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+        ;;
+    esac
+    _set_env_git_current_branch
+    _update_prompt
+}
+
+chpwd()
+{
+    _set_env_git_current_branch
+    _update_prompt
+}
+_update_prompt
 
 # auto change directory
 setopt auto_cd
@@ -37,6 +68,10 @@ setopt list_packed
 setopt noautoremoveslash
 # no beep sound when complete list displayed
 setopt nolistbeep
+# 8 ビット目を通すようになり、日本語のファイル名などを見れるようになる
+setopt print_eightbit
+# コマンドラインの引数で --prefix=/usr などの = 以降でも補完できる
+setopt magic_equal_subst
 
 ## Keybind configuration
 # emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes 
@@ -94,15 +129,8 @@ cons25)
     ;;
 esac
 
-# set terminal title including current directory
-#
 case "${TERM}" in
 kterm*|xterm*|dtterm*)
-    precmd() {
-        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
-#    export LSCOLORS=exfxcxdxbxegedabagacad
-#    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
     zstyle ':completion:*' list-colors \
         'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
     ;;

@@ -39,17 +39,19 @@ else
     export JAVA_HOME=/Library/Java/Home
 fi
 if [ "${LANG}" = "ja_JP.UTF-8" ] ; then
-    alias java='java -Dfile.encoding=UTF-8'
-    alias javac='javac -J-Dfile.encoding=UTF-8'
-    alias javadoc='javadoc -J-Dfile.encoding=UTF-8'
-    alias jar='jar -J-Dfile.encoding=UTF-8'
-    alias native2ascii='native2ascii -J-Dfile.encoding=UTF-8'
+    export _JAVA_OPTIONS='-Dfile.encoding=UTF-8'
+#    alias java='java -Dfile.encoding=UTF-8'
+#    alias javac='javac -J-Dfile.encoding=UTF-8'
+#    alias javadoc='javadoc -J-Dfile.encoding=UTF-8'
+#    alias jar='jar -J-Dfile.encoding=UTF-8'
+#    alias native2ascii='native2ascii -J-Dfile.encoding=UTF-8'
 elif [ "${LANG}" = "ja_JP.eucJP" ] ; then
-    alias java='java -Dfile.encoding=EUC-JP'
-    alias javac='javac -J-Dfile.encoding=EUC-JP'
-    alias javadoc='javadoc -J-Dfile.encoding=EUC-JP'
-    alias jar='jar -J-Dfile.encoding=EUC-JP'
-    alias native2ascii='native2ascii -J-Dfile.encoding=EUC-JP'
+    export _JAVA_OPTIONS=-Dfile.encoding=EUC-JP
+#    alias java='java -Dfile.encoding=EUC-JP'
+#    alias javac='javac -J-Dfile.encoding=EUC-JP'
+#    alias javadoc='javadoc -J-Dfile.encoding=EUC-JP'
+#    alias jar='jar -J-Dfile.encoding=EUC-JP'
+#    alias native2ascii='native2ascii -J-Dfile.encoding=EUC-JP'
 fi
 
 # Ant

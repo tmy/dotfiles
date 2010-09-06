@@ -421,8 +421,10 @@
 (mmm-add-mode-ext-class 'sgml-mode nil 'mmm-tt)
 (mmm-add-mode-ext-class nil "\\.rhtml$" 'mmm-eruby)
 (mmm-add-mode-ext-class nil "\\.php$" 'mmm-php)
+(mmm-add-mode-ext-class nil "\\.tpl$" 'mmm-smarty)
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl$" . html-mode))
 
 ;; Rails
 (defun try-complete-abbrev (old)

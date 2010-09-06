@@ -30,7 +30,7 @@ _update_prompt()
 }
 
 _set_env_git_current_branch() {
-    GIT_CURRENT_BRANCH=$( git branch &> /dev/null | grep '^¥*' | cut -b 3- )
+    GIT_CURRENT_BRANCH=$( git branch &> /dev/null | grep '^\*' | cut -b 3- )
     if [ -n "$GIT_CURRENT_BRANCH" ] ; then
         GIT_CURRENT_BRANCH="[git:%{${fg[green]}%}$GIT_CURRENT_BRANCH%{${reset_color}%}]"
     fi

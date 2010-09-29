@@ -4,6 +4,8 @@
 autoload colors
 colors
 
+PROMPT_HOST="%m"
+
 _update_prompt()
 {
     case ${TERM} in
@@ -16,9 +18,7 @@ _update_prompt()
             PROMPT_USER="%n"
         fi
         if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
-            PROMPT_HOST="%{${bg[blue]}%}%m%{${reset_color}%}"
-        else
-            PROMPT_HOST="%m"
+            PROMPT_HOST="%{${bg[blue]}%}${PROMPT_HOST}%{${reset_color}%}"
         fi
         YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
         PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}@${PROMPT_HOST}]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
@@ -42,7 +42,7 @@ precmd() {
     kterm*|xterm*|dtterm*)
         # set terminal title including current directory
         #
-        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+        echo -ne "\033]0;${USER}@${HOST%%.*}\007"
         ;;
     esac
     _set_env_git_current_branch

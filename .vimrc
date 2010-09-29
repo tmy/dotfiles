@@ -3,7 +3,7 @@ set ts=4 sw=4 sts=0
 set number
 set nocompatible
 set hlsearch
-colorscheme darkblue
+colorscheme default
 syntax on
 set encoding=utf-8
 set termencoding=utf-8

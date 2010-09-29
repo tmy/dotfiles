@@ -8,6 +8,8 @@ if [ -z "$LANG" ] ; then
 fi
 
 # GNU ls
-alias ls='ls -F --color'
-alias ll='ls -laF --color'
-alias la='ls -aF --color'
+if [ -n "$TERM" ] ; then
+    alias ls='ls -F --color'
+    alias ll='ls -laF --color'
+    alias la='ls -aF --color'
+fi

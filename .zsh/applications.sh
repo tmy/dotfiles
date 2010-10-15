@@ -143,7 +143,7 @@ if [ -n "$MYSQL_HOME" ] ; then
 fi
 
 if [ -n "${__CF_USER_TEXT_ENCODING}" ] ; then
-    eval `perl -e 'for(@ARGV){s|.*/(.+)\.app$|$1|;$app=$_;s|\s+||g;print qq(alias $_.app="open -a \x27$app\x27"\n)}' /Applications/*.app /Applications/*/*.app ~/Applications/*.app ~/Applications/*/*.app`
+    eval `perl -e 'for(@ARGV){s|.*/(.+)\.app$|$1|;$app=$_;s|\s+||g;print qq(alias \x27$_.app\x27="open -a \x27$app\x27"\n)}' /Applications/*.app /Applications/*/*.app ~/Applications/*.app ~/Applications/*/*.app`
 fi
 
 # Mercurial
@@ -171,3 +171,6 @@ function wiki() {
     fi
     w3m http://ja.wikipedia.org/wiki/`echo $str | nkf -w` # utf-8 に変換
 }
+
+
+alias yuno='echo -e "\033[43m\033[30mX\033[47m \033[30m/ \033[31m_ \033[30m/ \033[43m\033[30mX\033[00m"'

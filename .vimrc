@@ -25,6 +25,7 @@ set autoindent
 set wildmenu
 
 set statusline=%<%f\ %m%r%h%w[%Y]%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+set foldlevel=100
 
 " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
 " 文字コードの自動認識

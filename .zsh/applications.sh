@@ -20,6 +20,9 @@ alias .../='cd ../../'
 # Goes to the root directory
 alias '/'='cd /'
 
+autoload zmv
+alias zmv='noglob zmv'
+
 alias eng='env LC_ALL=C'
 
 # nkf
@@ -61,6 +64,9 @@ nless() { nl $* | less }
 if [ `whence -p gnutar` ] ; then
     alias tar='gnutar'
 fi
+
+# GNU grep
+export GREP_OPTIONS='--color=auto'
 
 alias gpg='eng gpg'
 
@@ -136,6 +142,9 @@ fi
 if [ -z "$MYSQL_HOME" ] ; then
     if [ -d "/usr/local/mysql" ] ; then
         export MYSQL_HOME="/usr/local/mysql"
+    fi
+    if [ -d "/opt/local/lib/mysql5" ] ; then
+        export MYSQL_HOME="/opt/local/lib/mysql5"
     fi
 fi
 if [ -n "$MYSQL_HOME" ] ; then

@@ -4,7 +4,7 @@ def ri(*names)
 end
 
 def refe(*names)
-  system(%{refe #{names.map {|name| name.to_s}.join(" ")} | nkf -Ew})
+  system(%{refe #{names.map {|name| name.to_s}.join(" ")} | nkf -w})
 end
 
 require 'pp'

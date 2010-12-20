@@ -65,6 +65,13 @@ if [ `whence -p gnutar` ] ; then
     alias tar='gnutar'
 fi
 
+# vim
+if [ `whence -p vim` ] ; then
+    export EDITOR=vim
+    alias vi=vim
+    alias view='vim -R'
+fi
+
 # GNU grep
 export GREP_OPTIONS='--color=auto'
 

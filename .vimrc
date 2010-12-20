@@ -22,11 +22,17 @@ set title
 set ruler
 set wrap
 set autoindent
+set smartindent
 set wildmenu
 
 set statusline=%<%f\ %m%r%h%w[%Y]%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 if exists('&foldlevel')
   set foldlevel=100
+endif
+
+if has("autocmd")
+  autocmd FileType php setlocal noexpandtab tabstop=4 shiftwidth=4
+  autocmd FileType ruby setlocal tabstop=2 shiftwidth=2
 endif
 
 " http://www.kawaz.jp/pukiwiki/?vim#cb691f26

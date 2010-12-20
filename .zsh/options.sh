@@ -100,11 +100,13 @@ fpath=(~/.zsh/functions $fpath)
 
 ## Completion configuration
 autoload -U compinit
-compinit
+compinit -u
 
 ## 補完時に大小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select=1
+## sudo でも補完の対象
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin
 
 # expand aliases before completing
 setopt complete_aliases # aliased ls needs if file/dir completions work

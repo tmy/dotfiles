@@ -10,6 +10,12 @@ fi
 if [ -d "$HOME/bin/local" ] ; then
     export PATH="$HOME/bin/local:$PATH"
 fi
+if [ "${UID}" = "0" ] ; then
+    export PATH="/usr/sbin:/sbin:$PATH"
+    if [ -d "/usr/local/sbin" ] ; then
+        export PATH="/usr/local/sbin:$PATH"
+    fi
+fi
 
 # environment variables
 export AUTHOR='Akinori Tomita'

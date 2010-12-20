@@ -131,8 +131,12 @@ esac
 
 case "${TERM}" in
 kterm*|xterm*|dtterm*)
-    zstyle ':completion:*' list-colors \
-        'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+    if [ -n "$LS_COLORS" ] ; then
+        zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+    else
+        zstyle ':completion:*' list-colors \
+            'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+    fi
     ;;
 esac
 

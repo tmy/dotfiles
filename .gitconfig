@@ -9,6 +9,7 @@
 	diff = auto
 	status = auto
 	branch = auto
+	ui = auto
 [merge]
     keepBackup = false
     tool = p4merge

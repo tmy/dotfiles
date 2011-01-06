@@ -60,6 +60,8 @@ _update_prompt
 setopt auto_cd
 # auto directory pushd that you can get dirs list by cd -[tab]
 setopt auto_pushd
+# 重複したディレクトリを追加しない
+setopt pushd_ignore_dups
 # command correct edition before each completion attempt
 setopt correct
 # compacked complete list display
@@ -72,6 +74,18 @@ setopt nolistbeep
 setopt print_eightbit
 # コマンドラインの引数で --prefix=/usr などの = 以降でも補完できる
 setopt magic_equal_subst
+# フローコントロールを無効にする
+setopt no_flow_control
+# シェルが終了しても裏ジョブに HUP シグナルを送らないようにする
+setopt no_hup
+# {a-c} を a b c に展開する機能を使えるようにする
+setopt brace_ccl
+#コピペの時rpromptを非表示する
+setopt transient_rprompt
+# リダイレクトで上書きする事を許可しない。
+setopt no_clobber
+# バックグラウンドジョブが終了したらすぐに知らせる。
+setopt no_tify
 
 ## Keybind configuration
 # emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes 
@@ -92,8 +106,20 @@ if [ "${UID}" != "0" ] ; then
     HISTFILE=~/.zsh_history
     HISTSIZE=10000
     SAVEHIST=10000
-    setopt hist_ignore_dups # ignore duplication command history list
-    setopt share_history # share command history data
+    # 履歴ファイルに時刻を記録
+    setopt extended_history
+    # 履歴をインクリメンタルに追加
+    setopt inc_append_history
+    # 履歴の共有
+    setopt share_history
+    # ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
+    setopt hist_ignore_all_dups
+    # 直前と同じコマンドラインはヒストリに追加しない
+    setopt hist_ignore_dups
+    # スペースで始まるコマンド行はヒストリリストから削除
+    setopt hist_ignore_space
+    # ヒストリを呼び出してから実行する間に一旦編集可能
+    setopt hist_verify
 fi
 
 fpath=(~/.zsh/functions $fpath)

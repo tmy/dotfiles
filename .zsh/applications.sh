@@ -51,6 +51,7 @@ elif [ `whence -p iconv` ] ; then
 fi
 
 # less
+export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 if [ "${LANG}" = "ja_JP.UTF-8" ] ; then
     export LESSCHARSET='utf-8'
 fi

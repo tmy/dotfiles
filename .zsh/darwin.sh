@@ -17,9 +17,6 @@ alias ls='ls -Fv'
 alias ll='ls -lav'
 alias la='ls -av'
 
-# less
-export LESS="-RM"
-
 # escape sequences
 alias dock='printf "\033[2t"'
 alias lower='printf "\033[6t"'

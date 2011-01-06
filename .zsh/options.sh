@@ -1,3 +1,4 @@
+autoload -U is-at-least
 #
 # set prompt
 #
@@ -21,37 +22,45 @@ _update_prompt()
             PROMPT_HOST="%{${bg[blue]}%}${PROMPT_HOST}%{${reset_color}%}"
         fi
         YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
-        PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}@${PROMPT_HOST}]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
+        PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}%B@${PROMPT_HOST}%B]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
         PROMPT2="%_> "
         SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-        RPROMPT="$GIT_CURRENT_BRANCH%(0?..[Return code:%{${fg[red]}%}%?%{${reset_color}%}])%(2L.[Shell level:%L].)%(1j.[Jobs:%j].)"
+        RPROMPT="${vcs_info_msg_0_}%(0?..[Return code:%{${fg[red]}%}%?%{${reset_color}%}])%(2L.[Shell level:%L].)%(1j.[Jobs:%j].)"
         ;;
     esac
 }
 
-_set_env_git_current_branch() {
-    GIT_CURRENT_BRANCH=$( git branch &> /dev/null | grep '^\*' | cut -b 3- )
-    if [ -n "$GIT_CURRENT_BRANCH" ] ; then
-        GIT_CURRENT_BRANCH="[git:%{${fg[green]}%}$GIT_CURRENT_BRANCH%{${reset_color}%}]"
-    fi
-    
+preexec() {
+    case "${TERM}" in
+    kterm*|xterm*|dtterm*)
+        # set terminal title
+        if [ -n "${TERM_PROGRAM}" ] ; then
+            echo -ne "\033]0;${1%% *} (${USER})\007"
+        else
+            echo -ne "\033]0;${HOST%%.*}: ${1%% *} (${USER})\007"
+        fi
+        ;;
+    esac
 }
 
 precmd() {
     case "${TERM}" in
     kterm*|xterm*|dtterm*)
-        # set terminal title including current directory
-        #
-        echo -ne "\033]0;${USER}@${HOST%%.*}\007"
+        # set terminal title
+        if [ -n "${TERM_PROGRAM}" ] ; then
+            echo -ne "\033]0;${PWD} (${USER})\007"
+        else
+            echo -ne "\033]0;${HOST%%.*}: ${PWD} (${USER})\007"
+        fi
         ;;
     esac
-    _set_env_git_current_branch
+    LANG=en_US.UTF-8 vcs_info
     _update_prompt
 }
 
 chpwd()
 {
-    _set_env_git_current_branch
+    LANG=en_US.UTF-8 vcs_info
     _update_prompt
 }
 _update_prompt
@@ -136,6 +145,39 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/s
 
 # expand aliases before completing
 setopt complete_aliases # aliased ls needs if file/dir completions work
+
+## vcs_info
+autoload -U is-at-least
+if is-at-least 4.2.1; then
+    if is-at-least 4.3.7; then
+    else
+        # 標準添付されていないので、自前バージョンを使う
+        fpath=($fpath ~/.zsh/functions/vcs_info_fallback)
+    fi
+    autoload -Uz vcs_info
+    zstyle ':vcs_info:*' actionformats \
+        "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%}|%{${fg[red]}%}%a%{${reset_color}%}] "
+    zstyle ':vcs_info:*' formats \
+        "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%}] "
+    zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b:%r'
+    if is-at-least 4.3.10; then
+        zstyle ':vcs_info:git:*' check-for-changes true
+        zstyle ':vcs_info:git:*' stagedstr "%{${fg[green]}%}+%{${reset_color}%}"
+        zstyle ':vcs_info:git:*' unstagedstr "%{${fg[red]}%}-%{${reset_color}%}"
+        zstyle ':vcs_info:git:*' formats \
+            "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%} %c%u] "
+        zstyle ':vcs_info:git:*' actionformats \
+            "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%}|%{${fg[red]}%}%a%{${reset_color}%}%c%u] "
+    fi
+else
+    # 古くて vcs_info がロードできない
+    vcs_info() {
+        vcs_info_msg_0_=$( git branch &> /dev/null | grep '^\*' | cut -b 3- )
+        if [ -n "$vcs_info_msg_0_" ] ; then
+            vcs_info_msg_0_="[git:%{${fg[green]}%}$vcs_info_msg_0_%{${reset_color}%}]"
+        fi
+    }
+fi
 
 ## terminal configuration
 unset LSCOLORS

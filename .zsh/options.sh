@@ -54,15 +54,16 @@ precmd() {
         fi
         ;;
     esac
-    LANG=en_US.UTF-8 vcs_info
+
+    old_lang=$LANG
+    export LANG=en_US.UTF-8
+    vcs_info
+    export LANG=$old_lang
+    unset old_lang
+
     _update_prompt
 }
 
-chpwd()
-{
-    LANG=en_US.UTF-8 vcs_info
-    _update_prompt
-}
 _update_prompt
 
 # auto change directory
@@ -160,15 +161,6 @@ if is-at-least 4.2.1; then
     zstyle ':vcs_info:*' formats \
         "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%}] "
     zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b:%r'
-    if is-at-least 4.3.10; then
-        zstyle ':vcs_info:git:*' check-for-changes true
-        zstyle ':vcs_info:git:*' stagedstr "%{${fg[green]}%}+%{${reset_color}%}"
-        zstyle ':vcs_info:git:*' unstagedstr "%{${fg[red]}%}-%{${reset_color}%}"
-        zstyle ':vcs_info:git:*' formats \
-            "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%} %c%u] "
-        zstyle ':vcs_info:git:*' actionformats \
-            "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%}|%{${fg[red]}%}%a%{${reset_color}%}%c%u] "
-    fi
 else
     # 古くて vcs_info がロードできない
     vcs_info() {

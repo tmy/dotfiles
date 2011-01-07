@@ -20,6 +20,9 @@ alias .../='cd ../../'
 # Goes to the root directory
 alias '/'='cd /'
 
+# sudo の後のコマンドでも alias が効くようにする謎設定
+alias sudo='sudo '
+
 autoload zmv
 alias zmv='noglob zmv'
 

@@ -95,7 +95,7 @@ setopt transient_rprompt
 # リダイレクトで上書きする事を許可しない。
 setopt no_clobber
 # バックグラウンドジョブが終了したらすぐに知らせる。
-setopt no_tify
+#setopt no_tify
 
 ## Keybind configuration
 # emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes 

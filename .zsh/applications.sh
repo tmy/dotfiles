@@ -160,6 +160,11 @@ if [ -z "$MYSQL_HOME" ] ; then
 fi
 if [ -n "$MYSQL_HOME" ] ; then
     export PATH="$MYSQL_HOME/bin:$PATH"
+    if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
+        export MYSQL_PS1="["$(hostname -s)"] \u@\h:\d mysql> "
+    else
+        export MYSQL_PS1='\u@\h:\d mysql> '
+    fi
 fi
 
 if [ -n "${__CF_USER_TEXT_ENCODING}" ] ; then

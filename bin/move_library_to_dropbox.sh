@@ -2,6 +2,7 @@
 
 libs=(
     "Library/Application Support/CotEditor"
+    "Library/Application Support/IntelliJIdea10"
     "Library/Application Support/OmniGraffle"
     "Library/Application Support/SIMBL/Plugins"
     "Library/Application Support/TextExtras"
@@ -10,6 +11,7 @@ libs=(
     "Library/Colors"
     "Library/KeyBindings"
     "Library/PreferencePanes"
+    "Library/Preferences/IntelliJIdea10"
     "Library/QuickLook"
     "Library/Services"
     "Library/SoftwareLicenses"

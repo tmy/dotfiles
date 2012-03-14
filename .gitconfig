@@ -21,9 +21,20 @@
 ;[diff]
 ;    external = p4diff
 [alias]
-    st = status
+    st = status -sb
     ci = commit
     co = checkout
     br = branch
     di = diff
 	lg = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    diff-word = diff --word-diff
+    remote-sync-origin = remote prune origin
+    remote-show-origin = remote show origin
+[core]
+	excludesfile = /Users/tommy/.gitignore_global
+[difftool "sourcetree"]
+	cmd = /Applications/ThirdParty/p4merge.app/Contents/MacOS/p4merge \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/ThirdParty/p4merge.app/Contents/MacOS/p4merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+	trustExitCode = true

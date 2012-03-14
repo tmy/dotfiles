@@ -35,9 +35,9 @@ preexec() {
     kterm*|xterm*|dtterm*)
         # set terminal title
         if [ -n "${TERM_PROGRAM}" ] ; then
-            echo -ne "\033]0;${1%% *} (${USER})\007"
+            echo -ne "\033]0;${1%% *}/ (${USER})\007"
         else
-            echo -ne "\033]0;${HOST%%.*}: ${1%% *} (${USER})\007"
+            echo -ne "\033]0;${HOST%%.*}: ${1%% *}/ (${USER})\007"
         fi
         ;;
     esac
@@ -48,9 +48,9 @@ precmd() {
     kterm*|xterm*|dtterm*)
         # set terminal title
         if [ -n "${TERM_PROGRAM}" ] ; then
-            echo -ne "\033]0;${PWD} (${USER})\007"
+            echo -ne "\033]0;${PWD}/ (${USER})\007"
         else
-            echo -ne "\033]0;${HOST%%.*}: ${PWD} (${USER})\007"
+            echo -ne "\033]0;${HOST%%.*}: ${PWD}/ (${USER})\007"
         fi
         ;;
     esac

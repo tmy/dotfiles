@@ -30,6 +30,8 @@
     diff-word = diff --word-diff
     remote-sync-origin = remote prune origin
     remote-show-origin = remote show origin
+    clone-recursive = clone --recursive
+    submodule-update-recursive = submodule update --init --recursive
 [core]
 	excludesfile = /Users/tommy/.gitignore_global
 [difftool "sourcetree"]

@@ -11,6 +11,9 @@ if [ -z "${LANG}" ] ; then
     export LANG=ja_JP.UTF-8
 fi
 
+# ファイル名の結合文字を正しく扱う
+setopt COMBINING_CHARS
+
 # BSD colorls
 export CLICOLOR=1
 alias ls='ls -Fv'

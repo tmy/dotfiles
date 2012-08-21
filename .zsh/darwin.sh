@@ -30,6 +30,8 @@ export COPYFILE_DISABLE=1
 export COPY_EXTENDED_ATTRIBUTES_DISABLE=1
 alias tar-with-resource-fork='env COPYFILE_DISABLE=0 COPY_EXTENDED_ATTRIBUTES_DISABLE=0 /usr/bin/tar'
 
+alias sha256sum='shasum -a 256'
+
 if [ -n "${JAVA_VERSION}" ] ; then
     export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/${JAVA_VERSION}/Home
 else

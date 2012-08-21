@@ -132,7 +132,7 @@ if [ "${UID}" != "0" ] ; then
     setopt hist_verify
 fi
 
-fpath=(~/.zsh/functions $fpath)
+fpath=(~/.zsh/functions ~/.zsh/functions/zsh-completions $fpath)
 
 ## Completion configuration
 autoload -U compinit

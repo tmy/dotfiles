@@ -210,3 +210,8 @@ TIMEFMT="\
     CPU seconds spent in kernel mode. :%S
     Elapsed time in seconds.          :%E
     The  CPU percentage.              :%P"
+
+## syntax highlighiting
+if is-at-least 4.3.9; then
+	#source ~/.zsh/functions/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi

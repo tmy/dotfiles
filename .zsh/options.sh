@@ -213,5 +213,5 @@ TIMEFMT="\
 
 ## syntax highlighiting
 if is-at-least 4.3.9; then
-	#source ~/.zsh/functions/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	source ~/.zsh/functions/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi

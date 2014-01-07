@@ -90,6 +90,11 @@ alias emacs='env XMODIFIERS=@im=no emacs'
 alias s=screen
 alias ss='screen ssh'
 
+# rvm
+if [ -d "$HOME/.rvm/bin" ] ; then
+    PATH=$PATH:$HOME/.rvm/bin
+fi
+
 # refe
 if [ "${LANG}" = "ja_JP.UTF-8" ] ; then
     refe() { command refe $* | e2u }

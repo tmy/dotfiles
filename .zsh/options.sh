@@ -149,10 +149,32 @@ if is-at-least 4.2.1; then
         fpath=($fpath ~/.zsh/functions/fallbacks/vcs_info)
     fi
     autoload -Uz vcs_info
-    zstyle ':vcs_info:*' actionformats \
-        "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%}|%{${fg[red]}%}%a%{${reset_color}%}] "
-    zstyle ':vcs_info:*' formats \
-        "[%s:%{${fg[blue]}%}%r%{${reset_color}%}:%{${fg[green]}%}%b%{${reset_color}%}] "
+    local -A vcs_info_replacements
+    local vcs_info_formats
+    local vcs_info_actionformats
+    vcs_info_replacements=(
+        vcs "%s"
+        branch "%{${fg[green]}%}%b%{${reset_color}%}"
+        action "%{${fg[red]}%}%a%{${reset_color}%}"
+        stagedstr "%{${fg[cyan]}%}%c%{${reset_color}%}"
+        unstagedstr "%{${fg[magenta]}%}%u%{${reset_color}%}"
+        base "%R"
+        name "%{${fg[blue]}%}%r%{${reset_color}%}"
+        subdir "%S"
+        misc "%m"
+    )
+    vcs_info_formats="${vcs_info_replacements[vcs]}:${vcs_info_replacements[name]}:${vcs_info_replacements[branch]}"
+    vcs_info_actionformats="${vcs_info_replacements[action]}"
+    echo "${vcs_info_params[vcs]} ${vcs_info_params[action]}"
+    if is-at-least 4.3.10; then
+        # enable check-for-changes
+        zstyle ':vcs_info:git:*' check-for-changes true
+        zstyle ':vcs_info:git:*' stagedstr " <S>"
+        zstyle ':vcs_info:git:*' unstagedstr " <U>"
+        vcs_info_formats="${vcs_info_formats}${vcs_info_replacements[stagedstr]}${vcs_info_replacements[unstagedstr]}"
+    fi
+    zstyle ':vcs_info:*' formats "[${vcs_info_formats}] "
+    zstyle ':vcs_info:*' actionformats "[${vcs_info_formats}|${vcs_info_actionformats}] "
     zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b:%r'
 else
     # 古くて vcs_info がロードできない

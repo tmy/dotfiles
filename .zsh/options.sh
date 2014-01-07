@@ -1,4 +1,14 @@
 autoload -U is-at-least
+
+# add-zsh-hook
+if is-at-least 4.3.4; then
+    autoload -Uz add-zsh-hook
+else
+    # 標準添付されていないので、自前バージョンを使う
+    fpath=($fpath ~/.zsh/functions/fallbacks/add-zsh-hook)
+    autoload -U add-zsh-hook
+fi
+
 #
 # set prompt
 #

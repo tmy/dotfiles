@@ -159,12 +159,11 @@ if [ -z "$MYSQL_HOME" ] ; then
     if [ -d "/usr/local/mysql" ] ; then
         export MYSQL_HOME="/usr/local/mysql"
     fi
-    if [ -d "/opt/local/lib/mysql5" ] ; then
-        export MYSQL_HOME="/opt/local/lib/mysql5"
-    fi
 fi
 if [ -n "$MYSQL_HOME" ] ; then
     export PATH="$MYSQL_HOME/bin:$PATH"
+fi
+if [ `whence -p mysql` ] ; then
     if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
         export MYSQL_PS1="["$(hostname -s)"] \u@\h:\d mysql> "
     else

@@ -201,5 +201,10 @@ function wiki() {
     w3m http://ja.wikipedia.org/wiki/`echo $str | nkf -w` # utf-8 に変換
 }
 
+# rmate
+if [ `whence -p rmate` ] ; then
+    export RMATE_HOST=127.0.0.1
+	export RMATE_PORT=53698
+fi
 
 alias yuno='echo -e "\033[43m\033[30mX\033[47m \033[30m/ \033[31m_ \033[30m/ \033[43m\033[30mX\033[00m"'

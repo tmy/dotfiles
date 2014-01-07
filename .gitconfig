@@ -42,3 +42,5 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/ThirdParty/p4merge.app/Contents/MacOS/p4merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
 	trustExitCode = true
+[github]
+	user = tmy

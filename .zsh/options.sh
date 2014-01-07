@@ -14,67 +14,51 @@ fi
 #
 autoload colors
 colors
+# プロンプト変数内の変数展開を表示時に行う($の前に\をつけておく)
+setopt prompt_subst
 
 PROMPT_HOST="%m"
 
-_update_prompt()
-{
-    case ${TERM} in
-    dumb*|emacs*)
-        ;;
-    *)
-        if [ "${UID}" = "0" ] ; then
-            PROMPT_USER="%{${bg[blue]}%}%n%{${reset_color}%}"
-        else
-            PROMPT_USER="%n"
-        fi
-        if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
-            PROMPT_HOST="%{${bg[blue]}%}${PROMPT_HOST}%{${reset_color}%}"
-        fi
-        YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
-        PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}%B@${PROMPT_HOST}%B]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
-        PROMPT2="%_> "
-        SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-        RPROMPT="${vcs_info_msg_0_}%(0?..[Return code:%{${fg[red]}%}%?%{${reset_color}%}])%(2L.[Shell level:%L].)%(1j.[Jobs:%j].)"
-        ;;
-    esac
+case ${TERM} in
+dumb*|emacs*)
+    ;;
+*)
+    if [ "${UID}" = "0" ] ; then
+        PROMPT_USER="%{${bg[blue]}%}%n%{${reset_color}%}"
+    else
+        PROMPT_USER="%n"
+    fi
+    if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
+        PROMPT_HOST="%{${bg[blue]}%}${PROMPT_HOST}%{${reset_color}%}"
+    fi
+    YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
+    PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}%B@${PROMPT_HOST}%B]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
+    PROMPT2="%_> "
+    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+    RPROMPT="\${vcs_info_msg_0_}%(0?..[Return code:%{${fg[red]}%}%?%{${reset_color}%}])%(2L.[Shell level:%L].)%(1j.[Jobs:%j].)"
+    ;;
+esac
+
+# ターミナルウインドウのタイトル設定
+function _set_terminal_title () {
+    if [ -n "${TERM_PROGRAM}" ] ; then
+        echo -ne "\033]0;$1 (${USER})\007"
+    else
+        echo -ne "\033]0;${HOST%%.*}: $1 (${USER})\007"
+    fi
 }
-
-preexec() {
-    case "${TERM}" in
-    kterm*|xterm*|dtterm*)
-        # set terminal title
-        if [ -n "${TERM_PROGRAM}" ] ; then
-            echo -ne "\033]0;${1%% *}/ (${USER})\007"
-        else
-            echo -ne "\033]0;${HOST%%.*}: ${1%% *}/ (${USER})\007"
-        fi
-        ;;
-    esac
+function _preexec_set_terminal_title () {
+    _set_terminal_title "${1%% *}"
 }
-
-precmd() {
-    case "${TERM}" in
-    kterm*|xterm*|dtterm*)
-        # set terminal title
-        if [ -n "${TERM_PROGRAM}" ] ; then
-            echo -ne "\033]0;${PWD}/ (${USER})\007"
-        else
-            echo -ne "\033]0;${HOST%%.*}: ${PWD}/ (${USER})\007"
-        fi
-        ;;
-    esac
-
-    old_lang=$LANG
-    export LANG=en_US.UTF-8
-    vcs_info
-    export LANG=$old_lang
-    unset old_lang
-
-    _update_prompt
+function _precmd_set_terminal_title () {
+    _set_terminal_title "${PWD}"
 }
-
-_update_prompt
+case "${TERM}" in
+kterm*|xterm*|dtterm*)
+    add-zsh-hook preexec _preexec_set_terminal_title
+    add-zsh-hook precmd _precmd_set_terminal_title
+    ;;
+esac
 
 # auto change directory
 setopt auto_cd
@@ -179,6 +163,10 @@ else
         fi
     }
 fi
+function _precmd_vcs_info () {
+    LANG=en_US.UTF-8 vcs_info
+}
+add-zsh-hook precmd _precmd_vcs_info
 
 ## terminal configuration
 unset LSCOLORS

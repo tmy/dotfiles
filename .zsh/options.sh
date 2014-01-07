@@ -148,12 +148,11 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/s
 setopt complete_aliases # aliased ls needs if file/dir completions work
 
 ## vcs_info
-autoload -U is-at-least
 if is-at-least 4.2.1; then
     if is-at-least 4.3.7; then
     else
         # 標準添付されていないので、自前バージョンを使う
-        fpath=($fpath ~/.zsh/functions/vcs_info_fallback)
+        fpath=($fpath ~/.zsh/functions/fallbacks/vcs_info)
     fi
     autoload -Uz vcs_info
     zstyle ':vcs_info:*' actionformats \

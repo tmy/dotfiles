@@ -95,6 +95,11 @@ if [ -d "$HOME/.rvm/bin" ] ; then
     PATH=$PATH:$HOME/.rvm/bin
 fi
 
+# rbenv
+if [ `whence -p rbenv` ] ; then
+    eval "$(rbenv init - zsh)"
+fi
+
 # refe
 if [ "${LANG}" = "ja_JP.UTF-8" ] ; then
     refe() { command refe $* | e2u }

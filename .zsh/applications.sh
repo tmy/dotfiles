@@ -1,5 +1,7 @@
 # -*- sh -*-
 
+# CentOS の設定を上書き
+umask 002
 
 # Pressing "x" and enter exits.
 alias x='exit'

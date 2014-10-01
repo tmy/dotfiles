@@ -9,6 +9,21 @@ else
     autoload -U add-zsh-hook
 fi
 
+if is-at-least 4.3.3; then
+else
+    # *_functions が導入されていない
+    function precmd () {
+        for func in $precmd_functions; do
+            $func $*
+        done
+    }
+    function preexec () {
+        for func in $preexec_functions; do
+            $func $*
+        done
+    }
+fi
+
 #
 # set prompt
 #
@@ -186,7 +201,11 @@ else
     }
 fi
 function _precmd_vcs_info () {
-    LANG=en_US.UTF-8 vcs_info
+    if is-at-least 4.2.1; then
+        LANG=en_US.UTF-8 vcs_info
+    else
+        vcs_info
+    fi
 }
 add-zsh-hook precmd _precmd_vcs_info
 

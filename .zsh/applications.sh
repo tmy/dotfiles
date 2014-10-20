@@ -225,3 +225,8 @@ alias yuno='echo -e "\033[43m\033[30mX\033[47m \033[30m/ \033[31m_ \033[30m/ \03
 if [ -d "/usr/local/heroku/bin" ] ; then
     export PATH="/usr/local/heroku/bin:$PATH"
 fi
+
+# Vagrant
+if [ `whence -p prlctl` ] ; then
+    export VAGRANT_DEFAULT_PROVIDER=parallels
+fi

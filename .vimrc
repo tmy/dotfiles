@@ -24,6 +24,8 @@ set wrap
 set autoindent
 set smartindent
 set wildmenu
+set modeline
+set modelines=5
 
 set statusline=%<%f\ %m%r%h%w[%Y]%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 if exists('&foldlevel')

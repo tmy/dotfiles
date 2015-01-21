@@ -93,6 +93,9 @@ alias emacs='env XMODIFIERS=@im=no emacs'
 alias s=screen
 alias ss='screen ssh'
 
+# dig
+alias digq='dig +noall +answer'
+
 # rvm
 if [ -d "$HOME/.rvm/bin" ] ; then
     PATH=$PATH:$HOME/.rvm/bin

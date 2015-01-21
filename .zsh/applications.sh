@@ -115,6 +115,12 @@ fi
 export PERLDB_OPTS='f g '
 export PERL_BADLANG=0
 
+# Go
+if [ -d "/usr/local/go" ] ; then
+    export GOROOT="/usr/local/go"
+    export GOPATH="$HOME/.go"
+fi
+
 # Ant
 if [ -z "$ANT_HOME" ] ; then
     for i in ~/src/ant ~/src/apache-ant /usr/local/ant ; do

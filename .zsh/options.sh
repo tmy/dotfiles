@@ -49,8 +49,8 @@ dumb*|emacs*)
     YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
     PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}%B@${PROMPT_HOST}%B]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
     PROMPT2="%_> "
-    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-    RPROMPT="\${vcs_info_msg_0_}%(0?..[Return code:%{${fg[red]}%}%?%{${reset_color}%}])%(2L.[Shell level:%L].)%(1j.[Jobs:%j].)"
+    SPROMPT="💁 💬 「%{${fg[red]}%}%r%{${reset_color}%}」であってる? %{${fg[green]}%}[n,y,a,e]%{${reset_color}%}: "
+    RPROMPT="\${vcs_info_msg_0_}%(0?..💀  %{${fg[red]}%}%?%{${reset_color}%})%(2L. 🐚  %L.)%(1j. 🏃  %j.)"
     ;;
 esac
 
@@ -59,7 +59,7 @@ function _set_terminal_title () {
     if [ -n "${TERM_PROGRAM}" ] ; then
         echo -ne "\033]0;$1 (${USER})\007"
     else
-        echo -ne "\033]0;${HOST%%.*}: $1 (${USER})\007"
+        echo -ne "\033]0;🌐 ${HOST%%.*}: $1 (${USER})\007"
     fi
 }
 function _preexec_set_terminal_title () {
@@ -107,7 +107,7 @@ setopt no_clobber
 #setopt no_tify
 
 ## Keybind configuration
-# emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes 
+# emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes
 # to end of it)
 bindkey -e
 
@@ -184,8 +184,8 @@ if is-at-least 4.2.1; then
     if is-at-least 4.3.10; then
         # enable check-for-changes
         zstyle ':vcs_info:git:*' check-for-changes true
-        zstyle ':vcs_info:git:*' stagedstr " <S>"
-        zstyle ':vcs_info:git:*' unstagedstr " <U>"
+        zstyle ':vcs_info:git:*' stagedstr "🔹 "
+        zstyle ':vcs_info:git:*' unstagedstr "🔸 "
         vcs_info_formats="${vcs_info_formats}${vcs_info_replacements[stagedstr]}${vcs_info_replacements[unstagedstr]}"
     fi
     zstyle ':vcs_info:*' formats "[${vcs_info_formats}] "

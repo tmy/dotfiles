@@ -1,18 +1,19 @@
 [user]
-	name = Akinori Tomita
-	email = REPLACE@example.com
-[gui]
-	recentrepo = /Users/tommy/Projects/redmine
-	fontui = -family \"ヒラギノ角ゴ ProN W3\" -size 13 -weight normal -slant roman -underline 0 -overstrike 0
-	fontdiff = -family セプテンバーＭ-等幅 -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+    name = Akinori Tomita
+    email = REPLACE@example.com
+[include]
+    path = .gitconfig.local
 [color]
-	diff = auto
-	status = auto
-	branch = auto
-	ui = auto
+    diff = auto
+    status = auto
+    branch = auto
+    ui = auto
 [merge]
     keepBackup = false
     tool = p4merge
+    ff = false
+[pull]
+    rebase = true
 [mergetool "p4merge"]
     cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
     keepTemporaries = false
@@ -25,22 +26,40 @@
     ci = commit
     co = checkout
     br = branch
+    br = branch -a
+    bm = branch --merged
+    bn = branch --no-merged
     di = diff
-	lg = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    diff-word = diff --word-diff
+    dw = diff --color-words
+    dm = diff master...HEAD # master と HEAD の分岐点からの diff
+    l = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    lm = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative master..
+    lp = log -p
+    lpm = log -p master..
+    ls = log --stat
+    lsm = log --stat master..
+    ln = log --name-status
+    lnm = log --name-status master..
+    la = log --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    lg = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    lgm = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative master..
+    fp = fetch --prune
     remote-sync-origin = remote prune origin
     remote-show-origin = remote show origin
     clone-recursive = clone --recursive
     submodule-update-recursive = submodule update --init --recursive
+    merge-base-master = merge-base master HEAD
+    alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
 [core]
-	excludesfile = /Users/tommy/.gitignore_global
-	quotepath = false
-	precomposeunicode = true
+    excludesfile = ~/.gitignore_global
+    quotepath = false
+    precomposeunicode = true
+    attributesfile = ~/.gitattributes
 [difftool "sourcetree"]
-	cmd = /Applications/ThirdParty/p4merge.app/Contents/MacOS/p4merge \"$LOCAL\" \"$REMOTE\"
-	path = 
+    cmd = p4merge "$LOCAL" "$REMOTE"
+    path =
 [mergetool "sourcetree"]
-	cmd = /Applications/ThirdParty/p4merge.app/Contents/MacOS/p4merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
-	trustExitCode = true
+    cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+    trustExitCode = true
 [github]
-	user = tmy
+    user = tmy

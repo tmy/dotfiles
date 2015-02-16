@@ -46,11 +46,24 @@ dumb*|emacs*)
     if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
         PROMPT_HOST="%{${bg[blue]}%}${PROMPT_HOST}%{${reset_color}%}"
     fi
+    if is-at-least 4.3.4; then
+        MESSAGE_SPROMPT_PREFIX="💁 💬 「"
+        MESSAGE_SPROMPT_SUFFIX="」であってる?"
+        MESSAGE_RETURN_CODE=" 💀  %{${fg[red]}%}%?%{${reset_color}%}"
+        MESSAGE_SHELL_LEVEL=" 🐚  %L"
+        MESSAGE_JOBS=" 🏃  %j"
+    else
+        MESSAGE_SPROMPT_PREFIX=""
+        MESSAGE_SPROMPT_SUFFIX=" is correct?"
+        MESSAGE_RETURN_CODE="[Return code:%{${fg[red]}%}%?%{${reset_color}%}]"
+        MESSAGE_SHELL_LEVEL="[Shell level:%L]"
+        MESSAGE_JOBS="[Jobs:%j]"
+    fi
     YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
     PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}%B@${PROMPT_HOST}%B]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
     PROMPT2="%_> "
-    SPROMPT="💁 💬 「%{${fg[red]}%}%r%{${reset_color}%}」であってる? %{${fg[green]}%}[n,y,a,e]%{${reset_color}%}: "
-    RPROMPT="\${vcs_info_msg_0_}%(0?..💀  %{${fg[red]}%}%?%{${reset_color}%})%(2L. 🐚  %L.)%(1j. 🏃  %j.)"
+    SPROMPT="${MESSAGE_SPROMPT_PREFIX}%{${fg[red]}%}%r%{${reset_color}%}${MESSAGE_SPROMPT_SUFFIX} %{${fg[green]}%}[n,y,a,e]%{${reset_color}%}: "
+    RPROMPT="\${vcs_info_msg_0_}%(0?..${MESSAGE_RETURN_CODE})%(2L.${MESSAGE_SHELL_LEVEL}.)%(1j.${MESSAGE_JOBS}.)"
     ;;
 esac
 

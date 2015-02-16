@@ -32,6 +32,7 @@
     di = diff
     dw = diff --color-words
     dm = diff master...HEAD # master と HEAD の分岐点からの diff
+    dn = diff --no-index # ファイル同士の比較
     l = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     lm = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative master..
     lp = log -p

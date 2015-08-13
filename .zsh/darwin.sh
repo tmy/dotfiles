@@ -36,9 +36,9 @@ alias tar-with-resource-fork='env COPYFILE_DISABLE=0 COPY_EXTENDED_ATTRIBUTES_DI
 alias sha256sum='shasum -a 256'
 
 if [ -n "${JAVA_VERSION}" ] ; then
-    export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/${JAVA_VERSION}/Home
+    export JAVA_HOME=$(/usr/libexec/java_home -v "${JAVA_VERSION}")
 else
-    export JAVA_HOME=/Library/Java/Home
+    export JAVA_HOME=$(/usr/libexec/java_home)
 fi
 if [ "${LANG}" = "ja_JP.UTF-8" ] ; then
     export _JAVA_OPTIONS='-Dfile.encoding=UTF-8'

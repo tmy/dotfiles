@@ -64,3 +64,5 @@
     trustExitCode = true
 [github]
     user = tmy
+[fetch]
+	prune = true

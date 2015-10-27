@@ -76,12 +76,6 @@ alias top='top -ocpu'
 # Fink
 [ -r /sw/bin/init.sh ] && source /sw/bin/init.sh
 
-# MacPorts
-if [ -d /opt/local ] ; then
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-    export MANPATH=/opt/local/man:$MANPATH
-fi
-
 # TextMate
 if [ -x "${HOME}/bin/mate_wait" ] ; then
     export EDITOR='mate_wait'

@@ -30,6 +30,12 @@ alias zmv='noglob zmv'
 
 alias eng='env LC_ALL=C'
 
+# MacPorts
+if [ -d /opt/local ] ; then
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    export MANPATH=/opt/local/man:$MANPATH
+fi
+
 # nkf
 if [ `whence -p nkf` ] ; then
     if [ "${LANG}" = "ja_JP.UTF-8" ] ; then

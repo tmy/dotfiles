@@ -33,6 +33,19 @@ colors
 setopt prompt_subst
 
 PROMPT_HOST="%m"
+case "${OSTYPE}" in
+linux*)
+    PROMPT_ALIAS=`hostname -a | sed -r \
+        -e "s/\\b${HOST}\\b/ /" \
+        -e 's/\blocalhost\.localdomain\b/ /' \
+        -e 's/\blocalhost\b/ /' \
+        -e 's/\s+/ /' \
+        -e 's/(^\s+|\s+$)//'`
+    if [ -n "$PROMPT_ALIAS" ] ; then
+        PROMPT_HOST="${PROMPT_HOST} ${PROMPT_ALIAS}"
+    fi
+    ;;
+esac
 
 case ${TERM} in
 dumb*|emacs*)

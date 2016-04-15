@@ -21,6 +21,10 @@
     keepBackup = false
 ;[diff]
 ;    external = p4diff
+[pager]
+    log = diff-highlight | less
+    show = diff-highlight | less
+    diff = diff-highlight | less
 [alias]
     st = status -sb
     ci = commit

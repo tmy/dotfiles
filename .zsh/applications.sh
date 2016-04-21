@@ -246,3 +246,11 @@ fi
 if [ `whence -p prlctl` ] ; then
     export VAGRANT_DEFAULT_PROVIDER=parallels
 fi
+
+# Docker Machine
+if [ `whence -p docker-machine` ] ; then
+    docker_machine_main=`docker-machine ls -q | head -1`
+    if [ -n "$docker_machine_main" ] ; then
+        eval "$(docker-machine env "$docker_machine_main")"
+    fi
+fi

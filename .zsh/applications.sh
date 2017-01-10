@@ -254,3 +254,8 @@ if [ `whence -p docker-machine` ] ; then
         eval "$(docker-machine env "$docker_machine_main")"
     fi
 fi
+
+# AWS CLI
+if [ `whence -p aws_zsh_completer.sh` ] ; then
+    source `whence -p aws_zsh_completer.sh`
+fi

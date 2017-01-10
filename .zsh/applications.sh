@@ -122,9 +122,9 @@ export PERLDB_OPTS='f g '
 export PERL_BADLANG=0
 
 # Go
-if [ -d "/usr/local/go" ] ; then
-    export GOROOT="/usr/local/go"
+if [ `whence -p go` ] ; then
     export GOPATH="$HOME/.go"
+    export PATH="$GOPATH/bin:$PATH"
 fi
 
 # Ant

@@ -28,12 +28,17 @@ for lib in $libs ; do
     move_to="$backup_dir/$lib"
     link_to="$dropbox_dir/$lib"
     if [ -e "$target" -a ! -L "$target" ] ; then
-        echo Backup \"$target\"...
-        dirname=`dirname "$move_to"`
-        if [ ! -d "$dirname" ] ; then
-            mkdir -p "$dirname"
+        if [ ! -e "$link_to" ] ; then
+            echo Move \"$lib\" to Dropbox...
+            mv "$target" "$link_to"
+        else
+            echo Backup \"$target\"...
+            dirname=`dirname "$move_to"`
+            if [ ! -d "$dirname" ] ; then
+                mkdir -p "$dirname"
+            fi
+            mv "$target" "$move_to"
         fi
-        mv "$target" "$move_to"
     fi
     if [ ! -L "$target" ] ; then
         echo Create Symlink in \"$target\" to \"$link_to\"...

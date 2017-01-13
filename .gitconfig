@@ -1,6 +1,5 @@
 [user]
     name = Akinori Tomita
-    email = REPLACE@example.com
 [include]
     path = .gitconfig.local
 [color]

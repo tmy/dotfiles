@@ -207,4 +207,9 @@ if [ `whence -p rmate` ] ; then
 	export RMATE_PORT=53698
 fi
 
+# hub (https://github.com/defunkt/hub)
+#if [ `whence -p hub` ] ; then
+#    eval "$(hub alias -s)"
+#fi
+
 alias yuno='echo -e "\033[43m\033[30mX\033[47m \033[30m/ \033[31m_ \033[30m/ \033[43m\033[30mX\033[00m"'

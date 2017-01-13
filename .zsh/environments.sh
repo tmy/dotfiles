@@ -4,6 +4,14 @@ export LC_TIME=C
 if [ -d "/usr/local/bin" ] ; then
     export PATH="/usr/local/bin:$PATH"
 fi
+
+local zsh_dir=$(cd "$(dirname "$0")"; pwd)
+if [ -L "$zsh_dir" ] ; then
+    zsh_dir=$(readlink "$zsh_dir")
+fi
+local dotfiles_bin=$(cd "$zsh_dir/../bin"; pwd)
+export PATH="$dotfiles_bin:$PATH"
+
 if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
 fi

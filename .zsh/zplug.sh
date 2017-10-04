@@ -4,6 +4,7 @@ if [ -e ~/.zplug/init.zsh ] ; then
 
     source ~/.zplug/init.zsh
 
+    zplug "zsh-users/zsh-syntax-highlighting", defer:2
     zplug "docker/cli", as:command, use:contrib/completion/zsh/_docker
     zplug "docker/compose", as:command, use:contrib/completion/zsh/_docker-compose
 

@@ -12,7 +12,7 @@ if [ -e ~/.zplug/init.zsh ] ; then
 
     # 未インストール項目をインストールする
     if ! zplug check; then
-        printf "Install? [y/N]: "
+        printf "zplug: Install plugins? [y/N]: "
         if read -q; then
             echo; zplug install
         fi

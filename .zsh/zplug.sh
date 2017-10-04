@@ -18,6 +18,8 @@ if [ -e ~/.zplug/init.zsh ] ; then
         fi
     fi
 
+    chmod -R go-w ~/.zplug
+
     # コマンドをリンクして、PATH に追加し、プラグインは読み込む
     zplug load
 

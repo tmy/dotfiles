@@ -83,9 +83,9 @@ esac
 # ターミナルウインドウのタイトル設定
 function _set_terminal_title () {
     if [ -n "${TERM_PROGRAM}" ] ; then
-        echo -ne "\033]0;$1 (${USER})\007"
+        echo -ne "\033]7;${PWD}\007\033]2;\007"
     else
-        echo -ne "\033]0;🌐 ${HOST%%.*}: $1 (${USER})\007"
+        echo -ne "\033]7;${PWD}\007\033]2;🌐 ${HOST%%.*}: $1\007"
     fi
 }
 function _preexec_set_terminal_title () {

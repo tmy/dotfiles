@@ -196,3 +196,7 @@ if [ -f "$GOOGLE_CLOUD_SDK_HOME/completion.zsh.inc" ]; then
   source "$GOOGLE_CLOUD_SDK_HOME/completion.zsh.inc";
 fi
 
+# kubectl
+if [ `whence -p kubectl` ] ; then
+   source <(kubectl completion zsh)
+fi

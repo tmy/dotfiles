@@ -40,31 +40,6 @@ if [ -n "${JAVA_VERSION}" ] ; then
 else
     export JAVA_HOME=$(/usr/libexec/java_home)
 fi
-if [ "${LANG}" = "ja_JP.UTF-8" ] ; then
-    export _JAVA_OPTIONS='-Dfile.encoding=UTF-8'
-#    alias java='java -Dfile.encoding=UTF-8'
-#    alias javac='javac -J-Dfile.encoding=UTF-8'
-#    alias javadoc='javadoc -J-Dfile.encoding=UTF-8'
-#    alias jar='jar -J-Dfile.encoding=UTF-8'
-#    alias native2ascii='native2ascii -J-Dfile.encoding=UTF-8'
-elif [ "${LANG}" = "ja_JP.eucJP" ] ; then
-    export _JAVA_OPTIONS=-Dfile.encoding=EUC-JP
-#    alias java='java -Dfile.encoding=EUC-JP'
-#    alias javac='javac -J-Dfile.encoding=EUC-JP'
-#    alias javadoc='javadoc -J-Dfile.encoding=EUC-JP'
-#    alias jar='jar -J-Dfile.encoding=EUC-JP'
-#    alias native2ascii='native2ascii -J-Dfile.encoding=EUC-JP'
-fi
-
-# Ant
-if [ -d /Developer/Java/Ant ] ; then
-    export ANT_HOME=/Developer/Java/Ant
-fi
-
-# Developer Tools
-if [ -d /Developer/Tools ] ; then
-    export PATH=/Developer/Tools:${PATH}
-fi
 
 # X11
 if [ -d /usr/X11R6/bin ] ; then
@@ -72,11 +47,3 @@ if [ -d /usr/X11R6/bin ] ; then
 fi
 
 alias top='top -ocpu'
-
-# Fink
-[ -r /sw/bin/init.sh ] && source /sw/bin/init.sh
-
-# TextMate
-if [ -x "${HOME}/bin/mate_wait" ] ; then
-    export EDITOR='mate_wait'
-fi

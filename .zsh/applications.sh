@@ -127,46 +127,6 @@ if [ `whence -p go` ] ; then
     export PATH="$GOPATH/bin:$PATH"
 fi
 
-# Ant
-if [ -z "$ANT_HOME" ] ; then
-    for i in ~/src/ant ~/src/apache-ant /usr/local/ant ; do
-        if [ -d "$i" ] ; then
-            export ANT_HOME="$i"
-        fi
-    done
-fi
-if [ -n "$ANT_HOME" ] ; then
-    export PATH="$ANT_HOME/bin:$PATH"
-    alias ant='eng ant'
-fi
-
-# Maven
-if [ -z "$MAVEN_HOME" ] ; then
-    for i in ~/src/maven /usr/local/maven ; do
-        if [ -d "$i" ] ; then
-            export MAVEN_HOME="$i"
-        fi
-    done
-fi
-if [ -n "$MAVEN_HOME" ] ; then
-    export PATH="$MAVEN_HOME/bin:$PATH"
-    alias maven="eng maven -Dmaven.username=${USER}"
-fi
-
-# Tomcat
-if [ -z "$CATALINA_HOME" ] ; then
-    for i  in ~/src/tomcat ~/src/jakarta-tomcat /usr/local/tomcat /usr/local/jakarta-tomcat ; do
-        if [ -d "$i" ] ; then
-            export CATALINA_HOME="$i"
-        fi
-    done
-fi
-if [ -n "$CATALINA_HOME" ] ; then
-    if [ -x "$CATALINA_HOME/bin/catalina.sh" ] ; then
-        alias catalina.sh="$CATALINA_HOME/bin/catalina.sh"
-    fi
-fi
-
 # PostgreSQL
 if [ -z "$PGSQL_HOME" ] ; then
     if [ -d "/usr/local/pgsql" ] ; then
@@ -200,40 +160,6 @@ fi
 
 # Mercurial
 export HGENCODING="utf-8"
-
-function google() {
-    local str opt 
-    if [ $# != 0 ]; then # 引数が存在すれば
-        for i in $*; do
-            str="$str+$i"
-        done
-        str=`echo $str | sed 's/^\+//'` #先頭の「+」を削除
-        opt='search?num=50&hl=ja&ie=utf-8&oe=utf-8&lr=lang_ja'
-        opt="${opt}&q=${str}"
-    fi
-    w3m http://www.google.co.jp/$opt #引数がなければ $opt は空になる
-}
-
-function wiki() {
-    local str
-    if [ $# = 0 ]; then # 引数が存在すれば
-        str="特別:Random"
-        else
-        str=$*
-    fi
-    w3m http://ja.wikipedia.org/wiki/`echo $str | nkf -w` # utf-8 に変換
-}
-
-# rmate
-if [ `whence -p rmate` ] ; then
-    export RMATE_HOST=127.0.0.1
-	export RMATE_PORT=53698
-fi
-
-# hub (https://github.com/defunkt/hub)
-#if [ `whence -p hub` ] ; then
-#    eval "$(hub alias -s)"
-#fi
 
 alias yuno='echo -e "\033[43m\033[30mX\033[47m \033[30m/ \033[31m_ \033[30m/ \033[43m\033[30mX\033[00m"'
 

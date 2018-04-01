@@ -1,6 +1,8 @@
+.DEFAULT_GOAL := all
+
 DOTFILES := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 
-all: zsh git vim ruby
+all: zsh git vim ruby misc
 .PHONY: all zsh git vim ruby misc
 
 zsh:

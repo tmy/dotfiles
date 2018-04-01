@@ -2,8 +2,8 @@
 
 DOTFILES := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 
-all: zsh git vim ruby misc
-.PHONY: all zsh git vim ruby misc
+all: zsh git vim ruby misc zplug
+.PHONY: all zsh git vim ruby misc zplug
 
 zsh:
 	@if [ -d "${HOME}/.zsh" -a ! -L "${HOME}/.zsh" ] ; then \
@@ -27,3 +27,10 @@ ruby:
 misc:
 	ln -sf "$(DOTFILES)/.dircolors" "${HOME}/.dircolors"
 	ln -sf "$(DOTFILES)/.screenrc" "${HOME}/.screenrc"
+
+# https://github.com/zplug/zplug
+zplug: zsh
+	@if [ ! -d "${HOME}/.zplug" ] ; then \
+		curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh ; \
+		ZPLUG_INSTALL=1 zsh "${HOME}/.zsh/zplug.sh" ; \
+	fi

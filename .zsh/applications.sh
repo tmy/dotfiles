@@ -185,3 +185,14 @@ fi
 if [ `whence -p aws_zsh_completer.sh` ] ; then
     source `whence -p aws_zsh_completer.sh`
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$GOOGLE_CLOUD_SDK_HOME/path.zsh.inc" ]; then
+  source "$GOOGLE_CLOUD_SDK_HOME/path.zsh.inc";
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$GOOGLE_CLOUD_SDK_HOME/completion.zsh.inc" ]; then
+  source "$GOOGLE_CLOUD_SDK_HOME/completion.zsh.inc";
+fi
+

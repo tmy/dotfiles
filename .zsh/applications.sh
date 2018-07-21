@@ -36,6 +36,11 @@ if [ -d /opt/local ] ; then
     export MANPATH=/opt/local/man:$MANPATH
 fi
 
+# Homebrew
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
+
 # nkf
 if [ `whence -p nkf` ] ; then
     if [ "${LANG}" = "ja_JP.UTF-8" ] ; then

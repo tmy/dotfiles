@@ -1,28 +1,7 @@
 autoload -U is-at-least
 
 # add-zsh-hook
-if is-at-least 4.3.4; then
-    autoload -Uz add-zsh-hook
-else
-    # 標準添付されていないので、自前バージョンを使う
-    fpath=($fpath ~/.zsh/functions/fallbacks/add-zsh-hook)
-    autoload -U add-zsh-hook
-fi
-
-if is-at-least 4.3.3; then
-else
-    # *_functions が導入されていない
-    function precmd () {
-        for func in $precmd_functions; do
-            $func $*
-        done
-    }
-    function preexec () {
-        for func in $preexec_functions; do
-            $func $*
-        done
-    }
-fi
+autoload -Uz add-zsh-hook
 
 #
 # set prompt
@@ -59,19 +38,11 @@ dumb*|emacs*)
     if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] ; then
         PROMPT_HOST="%{${bg[blue]}%}${PROMPT_HOST}%{${reset_color}%}"
     fi
-    if is-at-least 4.3.4; then
-        MESSAGE_SPROMPT_PREFIX="💁 💬 「"
-        MESSAGE_SPROMPT_SUFFIX="」であってる?"
-        MESSAGE_RETURN_CODE=" 💀  %{${fg[red]}%}%?%{${reset_color}%}"
-        MESSAGE_SHELL_LEVEL=" 🐚  %L"
-        MESSAGE_JOBS=" 🏃  %j"
-    else
-        MESSAGE_SPROMPT_PREFIX=""
-        MESSAGE_SPROMPT_SUFFIX=" is correct?"
-        MESSAGE_RETURN_CODE="[Return code:%{${fg[red]}%}%?%{${reset_color}%}]"
-        MESSAGE_SHELL_LEVEL="[Shell level:%L]"
-        MESSAGE_JOBS="[Jobs:%j]"
-    fi
+    MESSAGE_SPROMPT_PREFIX="💁 💬 「"
+    MESSAGE_SPROMPT_SUFFIX="」であってる?"
+    MESSAGE_RETURN_CODE=" 💀  %{${fg[red]}%}%?%{${reset_color}%}"
+    MESSAGE_SHELL_LEVEL=" 🐚  %L"
+    MESSAGE_JOBS=" 🏃  %j"
     YUNO="${bg[yellow]}${fg[black]}X${bg[white]} ${fg[black]}/ ${fg[red]}_ ${fg[black]}/ ${bg[yellow]}${fg[black]}X${reset_color} < "
     PROMPT="%{${fg[red]}%}%*%{${reset_color}%} %B[${PROMPT_USER}%B@${PROMPT_HOST}%B]%b %U%{${fg[green]}%}%~%{${reset_color}%}%u"$'\n'"%# "
     PROMPT2="%_> "
@@ -183,55 +154,35 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/s
 setopt complete_aliases # aliased ls needs if file/dir completions work
 
 ## vcs_info
-if is-at-least 4.2.1; then
-    if is-at-least 4.3.7; then
-    else
-        # 標準添付されていないので、自前バージョンを使う
-        fpath=($fpath ~/.zsh/functions/fallbacks/vcs_info)
-    fi
-    autoload -Uz vcs_info
-    local -A vcs_info_replacements
-    local vcs_info_formats
-    local vcs_info_actionformats
-    vcs_info_replacements=(
-        vcs "%s"
-        branch "%{${fg[green]}%}%b%{${reset_color}%}"
-        action "%{${fg[red]}%}%a%{${reset_color}%}"
-        stagedstr "%{${fg[cyan]}%}%c%{${reset_color}%}"
-        unstagedstr "%{${fg[magenta]}%}%u%{${reset_color}%}"
-        base "%R"
-        name "%{${fg[blue]}%}%r%{${reset_color}%}"
-        subdir "%S"
-        misc "%m"
-    )
-    vcs_info_formats="${vcs_info_replacements[vcs]}:${vcs_info_replacements[name]}:${vcs_info_replacements[branch]}"
-    vcs_info_actionformats="${vcs_info_replacements[action]}"
-    echo "${vcs_info_params[vcs]} ${vcs_info_params[action]}"
-    if is-at-least 4.3.10; then
-        # enable check-for-changes
-        zstyle ':vcs_info:git:*' check-for-changes true
-        zstyle ':vcs_info:git:*' stagedstr "🔹 "
-        zstyle ':vcs_info:git:*' unstagedstr "🔸 "
-        vcs_info_formats="${vcs_info_formats}${vcs_info_replacements[stagedstr]}${vcs_info_replacements[unstagedstr]}"
-    fi
-    zstyle ':vcs_info:*' formats "[${vcs_info_formats}] "
-    zstyle ':vcs_info:*' actionformats "[${vcs_info_formats}|${vcs_info_actionformats}] "
-    zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b:%r'
-else
-    # 古くて vcs_info がロードできない
-    vcs_info() {
-        vcs_info_msg_0_=$( git branch &> /dev/null | grep '^\*' | cut -b 3- )
-        if [ -n "$vcs_info_msg_0_" ] ; then
-            vcs_info_msg_0_="[git:%{${fg[green]}%}$vcs_info_msg_0_%{${reset_color}%}]"
-        fi
-    }
-fi
+autoload -Uz vcs_info
+local -A vcs_info_replacements
+local vcs_info_formats
+local vcs_info_actionformats
+vcs_info_replacements=(
+    vcs "%s"
+    branch "%{${fg[green]}%}%b%{${reset_color}%}"
+    action "%{${fg[red]}%}%a%{${reset_color}%}"
+    stagedstr "%{${fg[cyan]}%}%c%{${reset_color}%}"
+    unstagedstr "%{${fg[magenta]}%}%u%{${reset_color}%}"
+    base "%R"
+    name "%{${fg[blue]}%}%r%{${reset_color}%}"
+    subdir "%S"
+    misc "%m"
+)
+vcs_info_formats="${vcs_info_replacements[vcs]}:${vcs_info_replacements[name]}:${vcs_info_replacements[branch]}"
+vcs_info_actionformats="${vcs_info_replacements[action]}"
+echo "${vcs_info_params[vcs]} ${vcs_info_params[action]}"
+# enable check-for-changes
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "🔹 "
+zstyle ':vcs_info:git:*' unstagedstr "🔸 "
+vcs_info_formats="${vcs_info_formats}${vcs_info_replacements[stagedstr]}${vcs_info_replacements[unstagedstr]}"
+zstyle ':vcs_info:*' formats "[${vcs_info_formats}] "
+zstyle ':vcs_info:*' actionformats "[${vcs_info_formats}|${vcs_info_actionformats}] "
+zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b:%r'
+
 function _precmd_vcs_info () {
-    if is-at-least 4.2.1; then
-        LANG=en_US.UTF-8 vcs_info
-    else
-        vcs_info
-    fi
+    LANG=en_US.UTF-8 vcs_info
 }
 add-zsh-hook precmd _precmd_vcs_info
 

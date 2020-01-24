@@ -1,3 +1,5 @@
+# -*- zsh -*-
+
 export LC_TIME=C
 
 # PATH

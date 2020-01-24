@@ -1,4 +1,4 @@
-# -*- sh -*-
+# -*- zsh -*-
 
 if [ -e ~/.zplug/init.zsh ] ; then
 

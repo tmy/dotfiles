@@ -1,3 +1,5 @@
+# -*- zsh -*-
+
 autoload -U is-at-least
 
 # add-zsh-hook

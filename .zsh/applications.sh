@@ -211,3 +211,7 @@ if [ `whence -p kubectl` ] ; then
    source <(kubectl completion zsh)
    :
 fi
+
+if [ `whence -p consul` ] ; then
+    complete -o nospace -C consul consul
+fi

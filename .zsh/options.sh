@@ -143,6 +143,7 @@ fpath=(~/.zsh/functions ~/.zsh/functions/zsh-completions/src $fpath)
 ## Completion configuration
 autoload -U compinit
 compinit -u
+autoload -U +X bashcompinit && bashcompinit
 
 ## 補完時に大小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'

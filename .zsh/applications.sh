@@ -107,6 +107,11 @@ alias ss='screen ssh'
 # dig
 alias digq='dig +noall +answer'
 
+# direnv
+if [ `whence -p direnv` ] ; then
+    eval "$(direnv hook zsh)"
+fi
+
 # rvm
 if [ -d "$HOME/.rvm/bin" ] ; then
     PATH=$PATH:$HOME/.rvm/bin

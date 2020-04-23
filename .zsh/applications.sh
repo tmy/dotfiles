@@ -192,7 +192,10 @@ if [ `whence -p docker-machine` ] ; then
 fi
 
 # AWS CLI
-if [ `whence -p aws_zsh_completer.sh` ] ; then
+# https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-configure-completion.html
+if [ `whence -p aws_zsh_completer` ] ; then
+    complete -C `whence -p aws_zsh_completer.sh` aws
+elif [ `whence -p aws_zsh_completer.sh` ] ; then
     source `whence -p aws_zsh_completer.sh`
 fi
 

@@ -230,8 +230,12 @@ fi
 
 # kubectl
 if [ `whence -p kubectl` ] ; then
-   source <(kubectl completion zsh)
-   :
+    # https://blog.hatappi.me/entry/2019/06/01/112358
+    kubectl() {
+        unfunction "$0"
+        source <(kubectl completion zsh)
+        $0 "$@"
+    }
 fi
 
 if [ `whence -p consul` ] ; then

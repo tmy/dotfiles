@@ -178,6 +178,11 @@ if [ `whence -p mysql` ] ; then
     fi
 fi
 
+# Homebrew mysql-client
+if [ -f "/opt/homebrew/opt/mysql-client/bin/mysql" ] ; then
+    export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+fi
+
 if [ -n "${__CF_USER_TEXT_ENCODING}" ] ; then
     eval `perl -e 'for(@ARGV){s|.*/(.+)\.app$|$1|;$app=$_;s|\s+||g;print qq(alias \x27$_.app\x27="open -a \x27$app\x27"\n)}' /Applications/*.app /Applications/*/*.app ~/Applications/*.app ~/Applications/*/*.app`
 fi

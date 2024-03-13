@@ -37,6 +37,9 @@ if [ -d /opt/local ] ; then
 fi
 
 # Homebrew
+if [ -d /opt/homebrew ] ; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi

@@ -141,6 +141,10 @@ if [ `whence -p go` ] ; then
     export PATH="$GOPATH/bin:$PATH"
 fi
 
+# tinygo-autocmpl
+if [ `whence -p tinygo-autocmpl` ] ; then
+    eval "$(tinygo-autocmpl --completion-script-zsh)"
+fi
 # PostgreSQL
 if [ -z "$PGSQL_HOME" ] ; then
     if [ -d "/usr/local/pgsql" ] ; then

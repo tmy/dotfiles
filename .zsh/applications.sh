@@ -145,6 +145,12 @@ fi
 if [ `whence -p tinygo-autocmpl` ] ; then
     eval "$(tinygo-autocmpl --completion-script-zsh)"
 fi
+
+# Cargo
+if [ `whence -p cargo` ] ; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 # PostgreSQL
 if [ -z "$PGSQL_HOME" ] ; then
     if [ -d "/usr/local/pgsql" ] ; then

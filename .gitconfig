@@ -58,6 +58,7 @@
     clone-recursive = clone --recursive
     submodule-update-recursive = submodule update --init --recursive
     merge-base-master = merge-base master HEAD
+    delete-merged-branches = !git branch --merged | grep -v '\\*' | xargs git branch -d
     alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
   unstage = reset -q HEAD --
   discard = checkout --

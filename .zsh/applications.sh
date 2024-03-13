@@ -122,7 +122,8 @@ fi
 
 # rbenv
 if [ `whence -p rbenv` ] ; then
-    eval "$(rbenv init - zsh)"
+    eval "$(rbenv init --no-rehash - zsh)"
+    (rbenv rehash &) 2> /dev/null
 fi
 
 # refe

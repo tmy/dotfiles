@@ -245,3 +245,7 @@ fi
 if [ `whence -p consul` ] ; then
     complete -o nospace -C consul consul
 fi
+
+if [ `whence -p nomad` ] ; then
+  complete -o nospace -C nomad nomad
+fi

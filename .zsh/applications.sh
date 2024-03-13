@@ -238,6 +238,10 @@ if [ `whence -p kubectl` ] ; then
     }
 fi
 
+if [ `whence -p terraform` ] ; then
+    complete -o nospace -C terraform terraform
+fi
+
 if [ `whence -p consul` ] ; then
     complete -o nospace -C consul consul
 fi

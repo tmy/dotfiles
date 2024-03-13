@@ -9,10 +9,15 @@
     ui = auto
 [merge]
     keepBackup = false
-    tool = p4merge
+    tool = vscode
     ff = false
 [pull]
     rebase = true
+[mergetool "vscode"]
+    cmd = code --wait "$MERGED"
+    keepTemporaries = false
+    trustExitCode = false
+    keepBackup = false
 [mergetool "p4merge"]
     cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
     keepTemporaries = false
@@ -91,12 +96,14 @@
     precomposeunicode = true
     attributesfile = ~/.gitattributes
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	cmd = code --diff --wait \"$LOCAL\" \"$REMOTE\"
 	path = 
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = code -n --wait \"$MERGED\"
 	trustExitCode = true
 [github]
     user = tmy
 [fetch]
 	prune = true
+[diff]
+	renames = true

@@ -249,3 +249,7 @@ fi
 if [ `whence -p nomad` ] ; then
   complete -o nospace -C nomad nomad
 fi
+
+if [ -e "$HOME/.cargo/env" ] ; then
+  source "$HOME/.cargo/env"
+fi

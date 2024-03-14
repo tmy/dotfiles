@@ -36,9 +36,9 @@ alias tar-with-resource-fork='env COPYFILE_DISABLE=0 COPY_EXTENDED_ATTRIBUTES_DI
 alias sha256sum='shasum -a 256'
 
 if [ -n "${JAVA_VERSION}" ] ; then
-    export JAVA_HOME=$(/usr/libexec/java_home -v "${JAVA_VERSION}")
+    export JAVA_HOME=$(/usr/libexec/java_home -v "${JAVA_VERSION}" 2> /dev/null)
 else
-    export JAVA_HOME=$(/usr/libexec/java_home)
+    export JAVA_HOME=$(/usr/libexec/java_home 2> /dev/null)
 fi
 
 # X11

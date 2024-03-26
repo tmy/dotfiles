@@ -219,6 +219,11 @@ elif [ `whence -p aws_zsh_completer.sh` ] ; then
     source `whence -p aws_zsh_completer.sh`
 fi
 
+# brew install google-cloud-sdk
+if [ -d "${HOMEBREW_PREFIX:-/usr/local}/share/google-cloud-sdk" ]; then
+  export GOOGLE_CLOUD_SDK_HOME="${HOMEBREW_PREFIX:-/usr/local}/share/google-cloud-sdk"
+fi
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$GOOGLE_CLOUD_SDK_HOME/path.zsh.inc" ]; then
   source "$GOOGLE_CLOUD_SDK_HOME/path.zsh.inc";
